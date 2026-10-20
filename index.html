@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07172b">
+<title>AI VỀ ĐÍCH TRƯỚC | KHTN 7</title>
+<style>
+:root{font-family:Arial,sans-serif;--bg:#081829;--card:#102b43;--edge:#375872;--text:#f1f9ff;--muted:#bbd2e4;--gold:#ffd66f;--cyan:#65e7f2;--green:#91f6c5}
+*,*::before,*::after{box-sizing:border-box;font-family:Arial,sans-serif!important}
+body{margin:0;color:var(--text);background:radial-gradient(ellipse at 18% -10%,#235a81,transparent 52%),linear-gradient(140deg,#071728,#0a2a42 62%,#071728);min-height:100vh}
+button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.48;cursor:not-allowed}button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.wrap{width:min(1240px,100%);margin:auto;padding:18px 16px 34px}
+.head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}.eyebrow{font-size:12px;font-weight:900;color:#9fecff;letter-spacing:1.2px}.credit{font-size:12px;color:#d8eeff;border:1px solid #466988;border-radius:30px;padding:8px 12px;background:#133956}
+h1{font-size:clamp(29px,5.4vw,61px);line-height:1.07;margin:19px 0 9px;letter-spacing:.2px;color:var(--gold)}h1 em{font-style:normal;color:inherit}
+.sub{margin:0 0 17px;color:var(--muted);font-size:14px;line-height:1.55}
+.panel{padding:20px;background:#102c45ed;border:1px solid var(--edge);border-radius:20px;box-shadow:0 16px 40px #0004;margin-bottom:14px}.panel h2{font-size:20px;margin:0 0 14px}.panel h3{font-size:16px;margin:0 0 10px}.hidden{display:none!important}
+.modegrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modecard{display:flex;flex-direction:column;gap:10px;text-align:left;color:#fff;background:#0d2540;border:2px solid #3b5f80;border-radius:16px;min-height:150px;padding:21px;transition:border-color .15s,background .15s}.modecard:hover{background:#164569;border-color:#6debf3}.modecard strong{font-size:19px}.modecard span{font-size:13px;color:#c6dceb;line-height:1.5}.emoji{font-size:35px!important}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.between{justify-content:space-between}.section{margin-top:14px}.field-label{font-weight:800;font-size:13px;display:block;margin:10px 0 5px}.field{display:block;width:100%;border-radius:11px;color:#fff;background:#081e35;border:1px solid #5c809b;padding:12px;margin:5px 0 14px}.field::placeholder{color:#93aec3}.field.pin{max-width:230px;letter-spacing:12px;font-size:28px;font-weight:bold;text-align:center}
+.btn{border:1px solid #5dcbd6;border-radius:11px;padding:11px 17px;font-weight:800;background:linear-gradient(100deg,#45cfe9,#87ecc3);color:#083042;white-space:normal}.btn:hover:not(:disabled){filter:brightness(1.13)}.btn.secondary{background:#1a4565;color:#e8f8ff;border-color:#668eaa}.btn.danger{background:#643649;color:#fff;border-color:#b56b82}.btn.small{font-size:12px;padding:8px 11px}.help{font-size:13px;color:#d0e3f2;line-height:1.6}.help summary{font-weight:800;cursor:pointer}.help ul{padding-left:22px}.note{padding:12px 13px;background:#0a243a;border-left:4px solid var(--gold);border-radius:9px;font-size:13px;color:#d9edfb;line-height:1.55}.status{font-size:13px;color:#bbf2fd;min-height:20px;margin:12px 0}.status.error{color:#ffc2ad}.bigcode{font-size:clamp(39px,6vw,60px);font-weight:900;letter-spacing:12px;color:var(--gold);margin:2px 0 8px}
+.columns{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.8fr);gap:14px}.stage{background:#0b2439;border:1px solid #315975;padding:15px;border-radius:15px}.track{position:relative;border:4px solid #496175;border-radius:14px;background:#1a3246;max-height:620px;overflow:auto;padding:0;scrollbar-width:thin}.finish{position:absolute;right:13px;top:0;bottom:0;width:18px;background:conic-gradient(#fff 25%,#15232e 0 50%,#fff 0 75%,#15232e 0) 0 0/18px 18px;opacity:.95;pointer-events:none}.lane{position:relative;height:64px;min-height:64px;border-bottom:2px dashed #b5ced733;background:repeating-linear-gradient(90deg,#1c3245 0 46px,#223a4c 46px 48px);overflow:hidden}.lane:last-child{border-bottom:0}.lane::after{content:'';position:absolute;right:13px;top:0;bottom:0;width:15px;background:conic-gradient(#fff 25%,#15232e 0 50%,#fff 0 75%,#15232e 0) 0 0/15px 15px;pointer-events:none}.lane-name{position:absolute;top:4px;left:7px;max-width:83%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2;font-size:12px;font-weight:bold;background:#091d30db;padding:3px 7px;border-radius:5px}.car{position:absolute;left:0;top:25px;font-size:28px;transform:scaleX(-1);transition:left .45s ease;filter:drop-shadow(1px 3px 2px #0009)}.my-lane{outline:2px solid #ffd56b;outline-offset:-3px}.offline .lane-name{opacity:.5}
+.scoreboard{display:grid;gap:7px;max-height:650px;overflow:auto}.scoreline{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:center;gap:9px;background:#0a2238;border:1px solid #315877;padding:9px;border-radius:9px;font-size:12px}.scoreline .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.scoreline .points{color:var(--gold);font-weight:900}.scoreline.me{border-color:#deb759}.muted{font-size:12px;color:#9cb7ca}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.stat{background:#0a2137;border:1px solid #325877;border-radius:11px;padding:10px;text-align:center}.stat small{display:block;font-size:11px;color:#b7cfdf;margin-bottom:6px}.stat b{font-size:22px}.question{font-size:clamp(18px,2.1vw,23px);font-weight:900;margin:14px 0;line-height:1.42}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{border:1px solid #5885a6;background:#1c4162;color:#fff;font-weight:800;padding:13px;text-align:left;border-radius:12px;min-height:68px;line-height:1.5}.choice:hover:not(:disabled){background:#2b6185}.choice.good{background:#165e44;border-color:#91ebbd}.choice.bad{background:#7a3349;border-color:#ffb1bd}.choice .letter{background:#ffffff29;border-radius:7px;padding:6px 9px;margin-right:8px}
+.feedback{padding:12px;border:1px solid #5986a0;border-radius:10px;margin:12px 0;line-height:1.55;background:#10314b}.feedback strong{color:var(--gold)}
+.leader{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #3c5a75;padding:10px 2px;line-height:1.45}.leader:last-child{border:0}.leader span{overflow-wrap:anywhere}.leader b{color:var(--gold)}.footer{color:#adc5d8;text-align:center;font-size:12px;margin-top:20px}
+@media(max-width:950px){.columns{grid-template-columns:1fr}.scoreboard{max-height:220px}}
+@media(max-width:620px){.wrap{padding:13px}.panel{padding:13px}.modegrid,.choices{grid-template-columns:1fr}.modecard{min-height:unset}.stats{gap:5px}.stat b{font-size:19px}.car{font-size:25px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+ <header class="head"><span class="eyebrow">🏁 DẠY HỌC KHÁM PHÁ • KHTN 7</span><span class="credit">Thiết kế học liệu số: <b>Thầy Nguyễn Đức Cường</b></span></header>
+ <h1>AI VỀ ĐÍCH TRƯỚC</h1>
+ <p class="sub">Bài 8 – Tốc độ chuyển động • Kết nối tri thức với cuộc sống. Trả lời đúng để xe chạy ngay, không cần đợi đối thủ!</p>
+ <section id="home" class="panel">
+  <h2>Chọn chế độ chơi</h2>
+  <div class="modegrid">
+   <button type="button" class="modecard" id="soloMode"><span class="emoji">🏎️</span><strong>Đua cá nhân</strong><span>Thi với 3 xe máy tính • Câu hỏi đổi ở mỗi lượt • Lưu thành tích cao nhất trên thiết bị.</span></button>
+   <button type="button" class="modecard" id="onlineMode"><span class="emoji">🌐</span><strong>Phòng đua trực tuyến</strong><span>Mã phòng 4 chữ số • Các xe xuất phát cùng lúc • Mỗi lượt có bộ 10 câu hỏi mới • Trả lời đến đâu xe tiến đến đó • Không đặt giới hạn số người trong mã trò chơi.</span></button>
+  </div>
+  <p class="note section">Phòng trực tuyến dùng kết nối PeerJS/WebRTC và cần Internet. Máy giáo viên giữ phòng mở suốt cuộc đua. Số người tham gia thực tế phụ thuộc tốc độ mạng và khả năng thiết bị chủ phòng; phòng 4 số không phải mật khẩu bảo mật.</p>
+  <details class="help section"><summary>🎯 Luật chơi và kiến thức</summary><ul><li>10 câu hỏi ngẫu nhiên từ ngân hàng 143 câu, hạn chế lặp lại câu ở lượt liền trước; 100 điểm cho mỗi đáp án đúng; câu sai không tăng điểm.</li><li>Xe tăng 10% đường đua ngay sau mỗi câu đúng, không chờ người khác trả lời.</li><li>Xếp hạng theo điểm cao nhất; bằng điểm thì ưu tiên thời gian hoàn thành ngắn hơn.</li><li>Công thức v = s/t, đơn vị m/s và km/h; 1 m/s = 3,6 km/h.</li></ul></details>
+ </section>
+ <section id="setup" class="panel hidden">
+  <div class="row between"><h2 id="setupTitle">Chuẩn bị</h2><button type="button" class="btn secondary" id="backHome">← Trở lại</button></div>
+  <div id="soloSetup" class="hidden"><label class="field-label" for="soloName">Tên tay đua</label><input class="field" id="soloName" maxlength="24" autocomplete="off" placeholder="Ví dụ: Minh Anh"><label class="field-label" for="soloId">Mã học sinh (không bắt buộc)</label><input class="field" id="soloId" maxlength="16" placeholder="Ví dụ: HS07"><button type="button" class="btn" id="startSolo">🚦 Bắt đầu đua</button><div id="bestSolo" class="status"></div></div>
+  <div id="onlineSetup" class="hidden"><div class="row"><button class="btn" type="button" id="hostBtn">👩‍🏫 Giáo viên tạo phòng</button><button class="btn secondary" type="button" id="joinBtn">📱 Học sinh vào phòng</button></div>
+   <div id="hostSetup" class="hidden section"><p class="help">Một phòng 4 chữ số được tạo ngẫu nhiên. Không giới hạn người chơi bằng mã trò chơi. Máy giáo viên phải bật trong quá trình thi.</p><button type="button" class="btn" id="createRoom">Tạo mã phòng 4 số</button></div>
+   <div id="joinSetup" class="hidden section"><label class="field-label" for="pinInput">Mã phòng (4 chữ số)</label><input class="field pin" id="pinInput" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="1234" autocomplete="off"><label class="field-label" for="joinName">Tên tay đua</label><input class="field" id="joinName" maxlength="24" placeholder="Ví dụ: Trần Minh"><label class="field-label" for="joinId">Mã học sinh (không bắt buộc)</label><input class="field" id="joinId" maxlength="16" placeholder="Ví dụ: HS07"><button class="btn" type="button" id="connectRoom">🚀 Vào phòng đua</button></div>
+   <p id="netStatus" class="status" role="status" aria-live="polite"></p>
+  </div>
+ </section>
+ <section id="lobby" class="panel hidden">
+  <div class="row between"><h2>Phòng đua trực tuyến</h2><button type="button" class="btn secondary" id="leaveLobby">← Thoát phòng</button></div>
+  <div class="small">Mã phòng</div><div class="bigcode" id="roomCode">0000</div>
+  <div class="row"><button type="button" class="btn secondary small" id="copyCode">Sao chép mã</button><button type="button" class="btn secondary small" id="copyLink">Sao chép đường dẫn mời</button></div>
+  <p id="lobbyStatus" class="status" role="status"></p>
+  <div id="lobbyList" class="scoreboard" style="max-height:340px"></div>
+  <div class="row section"><button type="button" class="btn" id="startOnline">🏁 Cho các xe xuất phát</button></div>
+ </section>
+ <section id="play" class="panel hidden">
+  <div class="row between" style="margin-bottom:12px"><h2 id="playTitle">Cuộc đua đang diễn ra</h2><div class="row"><button type="button" class="btn secondary small" id="soundBtn">🔊 Âm thanh: Bật</button><button type="button" class="btn danger small" id="exitGame">Thoát cuộc đua</button></div></div>
+  <div class="stats"><div class="stat"><small>Thời gian</small><b id="clock">00:00</b></div><div class="stat"><small>Điểm của em / đội dẫn đầu</small><b id="myScore">0</b></div><div class="stat"><small>Đã trả lời</small><b id="questionCount">0/10</b></div></div>
+  <div class="columns">
+   <div><div class="stage"><div class="row between"><h3>ĐƯỜNG ĐUA</h3><span class="muted" id="raceHint">Các xe cập nhật theo thời gian thực.</span></div><div id="track" class="track"></div></div>
+    <div id="quiz" class="section"><div id="quizTag" class="status">Câu hỏi</div><div id="question" class="question"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback hidden"></div><button type="button" class="btn section hidden" id="nextQuestion">CÂU TIẾP THEO ➜</button><p id="gameStatus" class="status" role="status"></p></div>
+    <div id="teacherTools" class="section hidden"><p class="note">Máy giáo viên hiển thị kết quả trực tiếp. Mỗi học sinh tự trả lời 10 câu trên thiết bị của mình; giáo viên không cần bấm chuyển câu.</p><div class="row"><button type="button" class="btn danger" id="endOnline">Kết thúc cuộc đua và công bố kết quả</button><button type="button" class="btn secondary" id="exportCsv">📥 Xuất kết quả CSV</button></div></div>
+    <div id="raceResult" class="section hidden"><div class="stage"><h2>🏆 KẾT QUẢ CUỘC ĐUA</h2><p class="help" id="resultText"></p><div id="leaderboard"></div><div class="row section"><button type="button" class="btn secondary" id="backResults">← Về trang đầu</button><button type="button" class="btn" id="playAgain">Chơi lại</button><button type="button" class="btn secondary hidden" id="exportResult">Xuất CSV</button></div></div></div>
+   </div>
+   <aside><div class="stage"><h3>🏅 Bảng xếp hạng trực tiếp</h3><div id="scoreboard" class="scoreboard"></div><p class="muted section">Ưu tiên điểm cao; bằng điểm ưu tiên hoàn thành nhanh hơn. Xe cập nhật ngay sau khi đáp án được chấm.</p></div></aside>
+  </div>
+ </section>
+ <footer class="footer">AI VỀ ĐÍCH TRƯỚC • Học liệu tương tác môn Khoa học tự nhiên 7 • Thầy Nguyễn Đức Cường</footer>
+</main>
+<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+<script>
+'use strict';
+const bank=[
+{q:'Tốc độ của một vật cho biết điều gì?',a:['Mức độ nhanh hay chậm của chuyển động','Khối lượng của vật','Hướng chuyển động của vật','Quãng đường vật luôn đi được'],c:0,e:'Tốc độ là đại lượng cho biết mức độ nhanh hay chậm của chuyển động.'},
+{q:'Công thức tính tốc độ là công thức nào?',a:['v = t/s','v = s/t','v = s × t','v = s + t'],c:1,e:'Tốc độ bằng quãng đường đi được chia cho thời gian đi hết quãng đường đó: v = s/t.'},
+{q:'Trong công thức v = s/t, kí hiệu s biểu thị đại lượng nào?',a:['Thời gian','Tốc độ','Quãng đường','Khối lượng'],c:2,e:'s là quãng đường, t là thời gian và v là tốc độ.'},
+{q:'Đơn vị nào sau đây là đơn vị của tốc độ?',a:['km','m/s','giờ','m²'],c:1,e:'m/s (mét trên giây) là đơn vị tốc độ; km/h cũng là đơn vị tốc độ.'},
+{q:'Một xe đi 120 km trong 2 giờ. Tốc độ của xe là bao nhiêu?',a:['240 km/h','60 km/h','122 km/h','30 km/h'],c:1,e:'v = s/t = 120/2 = 60 km/h.'},
+{q:'Một học sinh chạy 100 m trong 20 s. Tốc độ là bao nhiêu?',a:['2 m/s','5 m/s','20 m/s','2000 m/s'],c:1,e:'v = 100/20 = 5 m/s.'},
+{q:'Một vật chuyển động với tốc độ 4 m/s trong 15 s. Quãng đường đi được là:',a:['60 m','19 m','3,75 m','11 m'],c:0,e:'s = v × t = 4 × 15 = 60 m.'},
+{q:'Một xe đi 90 km với tốc độ 45 km/h. Thời gian đi là:',a:['0,5 giờ','4 giờ','2 giờ','45 giờ'],c:2,e:'t = s/v = 90/45 = 2 giờ.'},
+{q:'36 km/h bằng bao nhiêu m/s?',a:['36 m/s','3,6 m/s','10 m/s','100 m/s'],c:2,e:'Đổi km/h sang m/s: chia cho 3,6. Ta có 36/3,6 = 10 m/s.'},
+{q:'5 m/s bằng bao nhiêu km/h?',a:['18 km/h','1,8 km/h','50 km/h','13,9 km/h'],c:0,e:'Đổi m/s sang km/h: nhân với 3,6. Ta có 5 × 3,6 = 18 km/h.'},
+{q:'Hai bạn cùng đi 100 m. An hết 20 s, Bình hết 25 s. Ai chạy nhanh hơn?',a:['Bình','Hai bạn bằng nhau','An','Không xác định'],c:2,e:'An: 100/20 = 5 m/s; Bình: 100/25 = 4 m/s. An nhanh hơn.'},
+{q:'Trong cùng một khoảng thời gian, vật có tốc độ lớn hơn sẽ:',a:['Đi được quãng đường dài hơn','Đi được quãng đường ngắn hơn','Luôn đứng yên','Có khối lượng lớn hơn'],c:0,e:'Vì s = v × t nên khi t như nhau, tốc độ lớn hơn thì quãng đường lớn hơn.'},
+{q:'Đại lượng nào cần đo để xác định tốc độ của một vật?',a:['Khối lượng và nhiệt độ','Quãng đường và thời gian','Lực và thể tích','Chiều cao và trọng lượng'],c:1,e:'Cần đo quãng đường s và thời gian t, sau đó tính v = s/t.'},
+{q:'Một người đi bộ với tốc độ 1,5 m/s trong 2 phút. Quãng đường là:',a:['3 m','90 m','180 m','120 m'],c:2,e:'2 phút = 120 s. s = 1,5 × 120 = 180 m.'},
+{q:'Một xe đạp đi 6 km trong 30 phút. Tốc độ là:',a:['3 km/h','12 km/h','18 km/h','0,2 km/h'],c:1,e:'30 phút = 0,5 giờ. v = 6/0,5 = 12 km/h.'},
+{q:'72 km/h tương ứng với:',a:['10 m/s','15 m/s','20 m/s','25 m/s'],c:2,e:'72/3,6 = 20 m/s.'},
+{q:'Một vận động viên chạy 200 m trong 25 s. Tốc độ là:',a:['8 m/s','5 m/s','25 m/s','0,125 m/s'],c:0,e:'v = 200/25 = 8 m/s.'},
+{q:'Một xe có tốc độ 54 km/h. Trong 10 s xe đi được:',a:['540 m','150 m','54 m','15 m'],c:1,e:'54 km/h = 15 m/s. s = 15 × 10 = 150 m.'},
+{q:'Hai xe cùng đi 60 km: xe A mất 1 giờ, xe B mất 1,5 giờ. Nhận xét đúng là:',a:['Xe B nhanh hơn','Hai xe nhanh như nhau','Xe A nhanh hơn','Không thể so sánh'],c:2,e:'vA = 60 km/h, vB = 40 km/h. Xe A nhanh hơn.'},
+{q:'Để tính thời gian chuyển động khi biết quãng đường và tốc độ, ta dùng:',a:['t = s/v','t = s × v','t = v/s','t = s + v'],c:0,e:'Từ v = s/t suy ra t = s/v.'},
+{q:'Một ô tô đi 150 km trong 2 giờ 30 phút. Tốc độ là:',a:['75 km/h','60 km/h','50 km/h','375 km/h'],c:1,e:'2 giờ 30 phút = 2,5 giờ. v = 150/2,5 = 60 km/h.'},
+{q:'Vật A có tốc độ 10 m/s, vật B có tốc độ 30 km/h. Vật nào nhanh hơn?',a:['Vật A','Vật B','Hai vật bằng nhau','Không thể so sánh'],c:0,e:'10 m/s = 36 km/h, lớn hơn 30 km/h. Vật A nhanh hơn.'},
+{q:'Một xe đi 24 km với tốc độ 12 km/h. Thời gian đi là:',a:['12 giờ','0,5 giờ','2 giờ','288 giờ'],c:2,e:'t = 24/12 = 2 giờ.'},
+{q:'Khi quãng đường không đổi, nếu thời gian chuyển động giảm thì tốc độ:',a:['Giảm','Không đổi','Bằng 0','Tăng'],c:3,e:'v = s/t, nên khi s không đổi mà t giảm thì v tăng.'}
+,
+{"q":"Khi nói một xe chuyển động nhanh hơn xe khác, đại lượng nào thường được dùng để so sánh?","a":["Khối lượng","Tốc độ","Thể tích","Nhiệt độ"],"c":1,"e":"Tốc độ biểu thị mức độ nhanh hay chậm của chuyển động."},
+{"q":"Kí hiệu v trong công thức v = s/t biểu thị điều gì?","a":["Quãng đường","Thời gian","Tốc độ","Lực"],"c":2,"e":"Trong công thức v = s/t, v là tốc độ, s là quãng đường, t là thời gian."},
+{"q":"Kí hiệu t trong công thức v = s/t biểu thị điều gì?","a":["Tốc độ","Thời gian","Quãng đường","Khối lượng"],"c":1,"e":"t biểu thị thời gian chuyển động."},
+{"q":"Đơn vị nào dưới đây KHÔNG phải đơn vị đo tốc độ?","a":["m/s","km/h","m/phút","km"],"c":3,"e":"km chỉ quãng đường; các đơn vị m/s, km/h, m/phút đều đo tốc độ."},
+{"q":"m/s được đọc là gì?","a":["Mét trên giây","Mét nhân giây","Giây trên mét","Mét trên giờ"],"c":0,"e":"m/s được đọc là mét trên giây, một đơn vị đo tốc độ."},
+{"q":"km/h được đọc là gì?","a":["Kilômét trên giây","Kilômét trên giờ","Giờ trên kilômét","Kilômét nhân giờ"],"c":1,"e":"km/h được đọc là kilômét trên giờ."},
+{"q":"Trong hệ SI, đơn vị thường dùng của tốc độ là gì?","a":["Giây","Mét","m/s","Kilôgam"],"c":2,"e":"Đơn vị tốc độ trong hệ SI là mét trên giây (m/s)."},
+{"q":"Đo tốc độ chạy của một bạn học sinh trên sân, cần những dụng cụ nào?","a":["Thước đo chiều dài và đồng hồ bấm giây","Cân và nhiệt kế","Lực kế và thước đo","Cốc đong và đồng hồ"],"c":0,"e":"Đo quãng đường bằng thước và thời gian bằng đồng hồ bấm giây, sau đó tính v=s/t."},
+{"q":"Muốn đo thời gian một bạn chạy hết 50 m, dụng cụ thích hợp nhất là gì?","a":["Thước dây","Đồng hồ bấm giây","Cân điện tử","Nhiệt kế"],"c":1,"e":"Đồng hồ bấm giây dùng để đo khoảng thời gian chuyển động."},
+{"q":"Muốn đo độ dài đoạn đường chạy trên sân trường, dụng cụ nào phù hợp?","a":["Đồng hồ bấm giây","Nhiệt kế","Thước dây","Cân đồng hồ"],"c":2,"e":"Thước dây có thể đo quãng đường đã chạy."},
+{"q":"Nếu một vật đi được 0 m trong 10 s thì tốc độ trung bình của nó là bao nhiêu?","a":["10 m/s","1 m/s","0 m/s","Không xác định"],"c":2,"e":"v = s/t = 0/10 = 0 m/s."},
+{"q":"Khi tốc độ tính theo m/s, quãng đường tính theo mét, thời gian phải tính theo đơn vị nào?","a":["Giờ","Phút","Giây","Ngày"],"c":2,"e":"v = s/t, với s đo bằng mét và t đo bằng giây thì v có đơn vị m/s."},
+{"q":"Khi tốc độ tính theo km/h, quãng đường tính theo km, thời gian phải tính theo đơn vị nào?","a":["Giây","Giờ","Phút","Mét"],"c":1,"e":"v = s/t, với s đo bằng kilômét và t đo bằng giờ thì v có đơn vị km/h."},
+{"q":"Một xe chạy 2 m/s nghĩa là gì?","a":["Trong 1 s đi được 2 m","Trong 2 s đi được 1 m","Trong 1 giờ đi được 2 m","Trong 2 m đi hết 1 giờ"],"c":0,"e":"2 m/s nghĩa là trung bình mỗi giây xe đi được 2 m."},
+{"q":"Một xe chạy 40 km/h nghĩa là gì?","a":["Mỗi giây đi 40 km","Mỗi giờ đi 40 km","Mỗi phút đi 40 km","Mỗi giờ đi 40 m"],"c":1,"e":"40 km/h nghĩa là trung bình mỗi giờ xe đi được 40 km."},
+{"q":"Trong hai xe đi cùng quãng đường, xe nào có tốc độ trung bình lớn hơn?","a":["Xe đi mất ít thời gian hơn","Xe đi mất nhiều thời gian hơn","Xe xuất phát muộn hơn","Hai xe chắc chắn bằng nhau"],"c":0,"e":"Với cùng quãng đường s, v = s/t nên t nhỏ hơn thì v lớn hơn."},
+{"q":"Hai xe chuyển động với cùng tốc độ, xe đi lâu hơn sẽ như thế nào?","a":["Đi được ít đường hơn","Đi được cùng quãng đường","Đi được quãng đường dài hơn","Không xác định được nếu biết tốc độ"],"c":2,"e":"Theo s = v × t, khi v bằng nhau, t lớn hơn thì s lớn hơn."},
+{"q":"Nếu quãng đường tăng gấp đôi và thời gian cũng tăng gấp đôi thì tốc độ trung bình thay đổi thế nào?","a":["Tăng gấp đôi","Giảm một nửa","Không đổi","Bằng 0"],"c":2,"e":"v = 2s/(2t)=s/t nên tốc độ không đổi."},
+{"q":"Nếu giữ nguyên quãng đường nhưng thời gian đi tăng gấp đôi thì tốc độ trung bình sẽ như thế nào?","a":["Tăng gấp đôi","Giảm một nửa","Không đổi","Tăng gấp bốn"],"c":1,"e":"v = s/(2t) = (s/t)/2."},
+{"q":"Nếu giữ nguyên thời gian nhưng quãng đường đi tăng gấp đôi thì tốc độ trung bình thay đổi thế nào?","a":["Tăng gấp đôi","Giảm một nửa","Không đổi","Giảm gấp bốn"],"c":0,"e":"v = 2s/t = 2(s/t)."},
+{"q":"Muốn chuyển số đo tốc độ từ km/h sang m/s, ta phải làm gì?","a":["Nhân với 3,6","Chia cho 3,6","Nhân với 60","Chia cho 60"],"c":1,"e":"Để đổi từ km/h sang m/s, chia giá trị cho 3,6."},
+{"q":"Muốn chuyển số đo tốc độ từ m/s sang km/h, ta phải làm gì?","a":["Nhân với 3,6","Chia cho 3,6","Nhân với 60","Chia cho 1000"],"c":0,"e":"Để đổi từ m/s sang km/h, nhân giá trị với 3,6."},
+{"q":"1 phút bằng bao nhiêu giây?","a":["100 s","3600 s","60 s","10 s"],"c":2,"e":"1 phút bằng 60 giây."},
+{"q":"1 giờ bằng bao nhiêu giây?","a":["60 s","600 s","3600 s","360 s"],"c":2,"e":"1 giờ = 60 phút = 3600 giây."},
+{"q":"1 km bằng bao nhiêu mét?","a":["10 m","100 m","1000 m","10000 m"],"c":2,"e":"1 km = 1000 m."},
+{"q":"Tốc độ trung bình của một chuyến đi được tính như thế nào?","a":["Tổng quãng đường chia tổng thời gian","Tổng thời gian chia tổng quãng đường","Quãng đường nhân thời gian","Lấy tốc độ cuối cùng trừ tốc độ ban đầu"],"c":0,"e":"Tốc độ trung bình bằng tổng quãng đường đi được chia cho tổng thời gian đi hết quãng đường đó."},
+{"q":"Vật đứng yên có tốc độ bằng bao nhiêu?","a":["1 m/s","0 m/s","10 m/s","Không đo được"],"c":1,"e":"Vật đứng yên không đi được quãng đường nào trong thời gian quan sát, nên tốc độ bằng 0."},
+{"q":"Trên cùng một quãng đường, thời gian càng ngắn thì tốc độ trung bình càng như thế nào?","a":["Càng nhỏ","Càng lớn","Không đổi","Bằng 0"],"c":1,"e":"Với quãng đường không đổi: v = s/t, t càng nhỏ thì v càng lớn."},
+{"q":"Trong công thức tính tốc độ, nếu quãng đường tính bằng mét và thời gian tính bằng phút, đơn vị thu được là gì?","a":["m/s","km/h","m/phút","km"],"c":2,"e":"Đơn vị phải phù hợp với các đại lượng đã dùng: m/phút."},
+{"q":"Một xe đi 10 m trong 2 s và xe khác đi 20 m trong 4 s. Kết luận nào đúng?","a":["Xe thứ nhất nhanh hơn","Xe thứ hai nhanh hơn","Hai xe có tốc độ trung bình như nhau","Không thể tính được"],"c":2,"e":"v1=10/2=5 m/s và v2=20/4=5 m/s."},
+{"q":"Một bạn chạy đều quãng đường 70 m trong 14 s. Tốc độ của bạn là bao nhiêu?","a":["5 m/s","14 m/s","70 m/s","10 m/s"],"c":0,"e":"Áp dụng v = s/t = 70/14 = 5 m/s."},
+{"q":"Một bạn chạy đều quãng đường 168 m trong 24 s. Tốc độ của bạn là bao nhiêu?","a":["168 m/s","7 m/s","14 m/s","24 m/s"],"c":1,"e":"Áp dụng v = s/t = 168/24 = 7 m/s."},
+{"q":"Một bạn chạy đều quãng đường 144 m trong 16 s. Tốc độ của bạn là bao nhiêu?","a":["16 m/s","144 m/s","9 m/s","18 m/s"],"c":2,"e":"Áp dụng v = s/t = 144/16 = 9 m/s."},
+{"q":"Một bạn chạy đều quãng đường 105 m trong 35 s. Tốc độ của bạn là bao nhiêu?","a":["105 m/s","6 m/s","35 m/s","3 m/s"],"c":3,"e":"Áp dụng v = s/t = 105/35 = 3 m/s."},
+{"q":"Một bạn chạy đều quãng đường 132 m trong 12 s. Tốc độ của bạn là bao nhiêu?","a":["132 m/s","12 m/s","22 m/s","11 m/s"],"c":3,"e":"Áp dụng v = s/t = 132/12 = 11 m/s."},
+{"q":"Một bạn chạy đều quãng đường 108 m trong 27 s. Tốc độ của bạn là bao nhiêu?","a":["27 m/s","8 m/s","108 m/s","4 m/s"],"c":3,"e":"Áp dụng v = s/t = 108/27 = 4 m/s."},
+{"q":"Một bạn chạy đều quãng đường 117 m trong 9 s. Tốc độ của bạn là bao nhiêu?","a":["26 m/s","117 m/s","13 m/s","9 m/s"],"c":2,"e":"Áp dụng v = s/t = 117/9 = 13 m/s."},
+{"q":"Một bạn chạy đều quãng đường 184 m trong 23 s. Tốc độ của bạn là bao nhiêu?","a":["23 m/s","184 m/s","16 m/s","8 m/s"],"c":3,"e":"Áp dụng v = s/t = 184/23 = 8 m/s."},
+{"q":"Một bạn chạy đều quãng đường 228 m trong 38 s. Tốc độ của bạn là bao nhiêu?","a":["6 m/s","12 m/s","38 m/s","228 m/s"],"c":0,"e":"Áp dụng v = s/t = 228/38 = 6 m/s."},
+{"q":"Một bạn chạy đều quãng đường 130 m trong 13 s. Tốc độ của bạn là bao nhiêu?","a":["20 m/s","13 m/s","10 m/s","130 m/s"],"c":2,"e":"Áp dụng v = s/t = 130/13 = 10 m/s."},
+{"q":"Một bạn chạy đều quãng đường 204 m trong 17 s. Tốc độ của bạn là bao nhiêu?","a":["204 m/s","24 m/s","17 m/s","12 m/s"],"c":3,"e":"Áp dụng v = s/t = 204/17 = 12 m/s."},
+{"q":"Một bạn chạy đều quãng đường 98 m trong 49 s. Tốc độ của bạn là bao nhiêu?","a":["49 m/s","4 m/s","98 m/s","2 m/s"],"c":3,"e":"Áp dụng v = s/t = 98/49 = 2 m/s."},
+{"q":"Một bạn chạy đều quãng đường 154 m trong 11 s. Tốc độ của bạn là bao nhiêu?","a":["154 m/s","14 m/s","28 m/s","11 m/s"],"c":1,"e":"Áp dụng v = s/t = 154/11 = 14 m/s."},
+{"q":"Một bạn chạy đều quãng đường 120 m trong 8 s. Tốc độ của bạn là bao nhiêu?","a":["120 m/s","15 m/s","8 m/s","30 m/s"],"c":1,"e":"Áp dụng v = s/t = 120/8 = 15 m/s."},
+{"q":"Một bạn chạy đều quãng đường 336 m trong 21 s. Tốc độ của bạn là bao nhiêu?","a":["21 m/s","16 m/s","32 m/s","336 m/s"],"c":1,"e":"Áp dụng v = s/t = 336/21 = 16 m/s."},
+{"q":"Một xe đi quãng đường 72 km trong 3 giờ. Tốc độ trung bình là bao nhiêu?","a":["3 km/h","72 km/h","36 km/h","24 km/h"],"c":3,"e":"v = s/t = 72/3 = 24 km/h."},
+{"q":"Một xe đi quãng đường 72 km trong 2 giờ. Tốc độ trung bình là bao nhiêu?","a":["72 km/h","2 km/h","48 km/h","36 km/h"],"c":3,"e":"v = s/t = 72/2 = 36 km/h."},
+{"q":"Một xe đi quãng đường 192 km trong 4 giờ. Tốc độ trung bình là bao nhiêu?","a":["192 km/h","48 km/h","4 km/h","60 km/h"],"c":1,"e":"v = s/t = 192/4 = 48 km/h."},
+{"q":"Một xe đi quãng đường 180 km trong 3 giờ. Tốc độ trung bình là bao nhiêu?","a":["72 km/h","180 km/h","3 km/h","60 km/h"],"c":3,"e":"v = s/t = 180/3 = 60 km/h."},
+{"q":"Một xe đi quãng đường 144 km trong 2 giờ. Tốc độ trung bình là bao nhiêu?","a":["144 km/h","72 km/h","2 km/h","84 km/h"],"c":1,"e":"v = s/t = 144/2 = 72 km/h."},
+{"q":"Một xe đi quãng đường 270 km trong 3 giờ. Tốc độ trung bình là bao nhiêu?","a":["90 km/h","3 km/h","102 km/h","270 km/h"],"c":0,"e":"v = s/t = 270/3 = 90 km/h."},
+{"q":"Một xe đi quãng đường 84 km trong 2 giờ. Tốc độ trung bình là bao nhiêu?","a":["54 km/h","42 km/h","2 km/h","84 km/h"],"c":1,"e":"v = s/t = 84/2 = 42 km/h."},
+{"q":"Một xe đi quãng đường 60 km trong 4 giờ. Tốc độ trung bình là bao nhiêu?","a":["15 km/h","27 km/h","60 km/h","4 km/h"],"c":0,"e":"v = s/t = 60/4 = 15 km/h."},
+{"q":"Một xe đi quãng đường 63 km trong 3 giờ. Tốc độ trung bình là bao nhiêu?","a":["21 km/h","3 km/h","63 km/h","33 km/h"],"c":0,"e":"v = s/t = 63/3 = 21 km/h."},
+{"q":"Một xe đi quãng đường 110 km trong 2 giờ. Tốc độ trung bình là bao nhiêu?","a":["110 km/h","2 km/h","55 km/h","67 km/h"],"c":2,"e":"v = s/t = 110/2 = 55 km/h."},
+{"q":"Một xe đi quãng đường 200 km trong 5 giờ. Tốc độ trung bình là bao nhiêu?","a":["200 km/h","5 km/h","52 km/h","40 km/h"],"c":3,"e":"v = s/t = 200/5 = 40 km/h."},
+{"q":"Một xe đi quãng đường 84 km trong 3 giờ. Tốc độ trung bình là bao nhiêu?","a":["84 km/h","40 km/h","3 km/h","28 km/h"],"c":3,"e":"v = s/t = 84/3 = 28 km/h."},
+{"q":"Một vật chuyển động với tốc độ 3 m/s trong 17 s. Quãng đường đi được là bao nhiêu?","a":["20 m","68 m","51 m","25 m"],"c":2,"e":"s = v × t = 3 × 17 = 51 m."},
+{"q":"Một vật chuyển động với tốc độ 5 m/s trong 24 s. Quãng đường đi được là bao nhiêu?","a":["29 m","144 m","60 m","120 m"],"c":3,"e":"s = v × t = 5 × 24 = 120 m."},
+{"q":"Một vật chuyển động với tốc độ 8 m/s trong 14 s. Quãng đường đi được là bao nhiêu?","a":["112 m","22 m","56 m","126 m"],"c":0,"e":"s = v × t = 8 × 14 = 112 m."},
+{"q":"Một vật chuyển động với tốc độ 12 m/s trong 11 s. Quãng đường đi được là bao nhiêu?","a":["66 m","132 m","143 m","23 m"],"c":1,"e":"s = v × t = 12 × 11 = 132 m."},
+{"q":"Một vật chuyển động với tốc độ 7 m/s trong 32 s. Quãng đường đi được là bao nhiêu?","a":["224 m","256 m","39 m","112 m"],"c":0,"e":"s = v × t = 7 × 32 = 224 m."},
+{"q":"Một vật chuyển động với tốc độ 9 m/s trong 25 s. Quãng đường đi được là bao nhiêu?","a":["225 m","34 m","112 m","250 m"],"c":0,"e":"s = v × t = 9 × 25 = 225 m."},
+{"q":"Một vật chuyển động với tốc độ 4 m/s trong 48 s. Quãng đường đi được là bao nhiêu?","a":["192 m","96 m","240 m","52 m"],"c":0,"e":"s = v × t = 4 × 48 = 192 m."},
+{"q":"Một vật chuyển động với tốc độ 15 m/s trong 18 s. Quãng đường đi được là bao nhiêu?","a":["288 m","33 m","270 m","135 m"],"c":2,"e":"s = v × t = 15 × 18 = 270 m."},
+{"q":"Một vật chuyển động với tốc độ 6 m/s trong 45 s. Quãng đường đi được là bao nhiêu?","a":["315 m","135 m","51 m","270 m"],"c":3,"e":"s = v × t = 6 × 45 = 270 m."},
+{"q":"Một vật chuyển động với tốc độ 11 m/s trong 16 s. Quãng đường đi được là bao nhiêu?","a":["27 m","88 m","176 m","192 m"],"c":2,"e":"s = v × t = 11 × 16 = 176 m."},
+{"q":"Một vật chuyển động với tốc độ 10 m/s trong 23 s. Quãng đường đi được là bao nhiêu?","a":["230 m","33 m","115 m","253 m"],"c":0,"e":"s = v × t = 10 × 23 = 230 m."},
+{"q":"Một vật chuyển động với tốc độ 13 m/s trong 15 s. Quãng đường đi được là bao nhiêu?","a":["28 m","97 m","195 m","210 m"],"c":2,"e":"s = v × t = 13 × 15 = 195 m."},
+{"q":"Đi quãng đường 112 m với tốc độ 4 m/s, cần bao nhiêu thời gian?","a":["112 s","32 s","28 s","56 s"],"c":2,"e":"t = s/v = 112/4 = 28 s."},
+{"q":"Đi quãng đường 102 m với tốc độ 6 m/s, cần bao nhiêu thời gian?","a":["17 s","23 s","102 s","34 s"],"c":0,"e":"t = s/v = 102/6 = 17 s."},
+{"q":"Đi quãng đường 117 m với tốc độ 9 m/s, cần bao nhiêu thời gian?","a":["22 s","13 s","117 s","26 s"],"c":1,"e":"t = s/v = 117/9 = 13 s."},
+{"q":"Đi quãng đường 228 m với tốc độ 12 m/s, cần bao nhiêu thời gian?","a":["31 s","19 s","228 s","38 s"],"c":1,"e":"t = s/v = 228/12 = 19 s."},
+{"q":"Đi quãng đường 210 m với tốc độ 5 m/s, cần bao nhiêu thời gian?","a":["42 s","84 s","210 s","47 s"],"c":0,"e":"t = s/v = 210/5 = 42 s."},
+{"q":"Đi quãng đường 288 m với tốc độ 8 m/s, cần bao nhiêu thời gian?","a":["72 s","44 s","36 s","288 s"],"c":2,"e":"t = s/v = 288/8 = 36 s."},
+{"q":"Đi quãng đường 135 m với tốc độ 3 m/s, cần bao nhiêu thời gian?","a":["135 s","48 s","90 s","45 s"],"c":3,"e":"t = s/v = 135/3 = 45 s."},
+{"q":"Đi quãng đường 310 m với tốc độ 10 m/s, cần bao nhiêu thời gian?","a":["62 s","31 s","310 s","41 s"],"c":1,"e":"t = s/v = 310/10 = 31 s."},
+{"q":"Đi quãng đường 182 m với tốc độ 7 m/s, cần bao nhiêu thời gian?","a":["52 s","182 s","33 s","26 s"],"c":3,"e":"t = s/v = 182/7 = 26 s."},
+{"q":"Đi quãng đường 264 m với tốc độ 11 m/s, cần bao nhiêu thời gian?","a":["264 s","35 s","24 s","48 s"],"c":2,"e":"t = s/v = 264/11 = 24 s."},
+{"q":"Đi quãng đường 210 m với tốc độ 15 m/s, cần bao nhiêu thời gian?","a":["210 s","28 s","14 s","29 s"],"c":2,"e":"t = s/v = 210/15 = 14 s."},
+{"q":"Đi quãng đường 116 m với tốc độ 2 m/s, cần bao nhiêu thời gian?","a":["58 s","116 s","56 s","60 s"],"c":0,"e":"t = s/v = 116/2 = 58 s."},
+{"q":"Đổi 18 km/h sang m/s, kết quả nào đúng?","a":["5 m/s","10 m/s","6 m/s","18 m/s"],"c":0,"e":"Đổi km/h sang m/s: 18/3,6 = 5 m/s."},
+{"q":"Đổi 36 km/h sang m/s, kết quả nào đúng?","a":["36 m/s","20 m/s","10 m/s","15 m/s"],"c":2,"e":"Đổi km/h sang m/s: 36/3,6 = 10 m/s."},
+{"q":"Đổi 54 km/h sang m/s, kết quả nào đúng?","a":["20 m/s","15 m/s","54 m/s","30 m/s"],"c":1,"e":"Đổi km/h sang m/s: 54/3,6 = 15 m/s."},
+{"q":"Đổi 72 km/h sang m/s, kết quả nào đúng?","a":["40 m/s","25 m/s","72 m/s","20 m/s"],"c":3,"e":"Đổi km/h sang m/s: 72/3,6 = 20 m/s."},
+{"q":"Đổi 90 km/h sang m/s, kết quả nào đúng?","a":["25 m/s","30 m/s","90 m/s","50 m/s"],"c":0,"e":"Đổi km/h sang m/s: 90/3,6 = 25 m/s."},
+{"q":"Đổi 108 km/h sang m/s, kết quả nào đúng?","a":["60 m/s","35 m/s","108 m/s","30 m/s"],"c":3,"e":"Đổi km/h sang m/s: 108/3,6 = 30 m/s."},
+{"q":"Đổi 126 km/h sang m/s, kết quả nào đúng?","a":["35 m/s","40 m/s","70 m/s","126 m/s"],"c":0,"e":"Đổi km/h sang m/s: 126/3,6 = 35 m/s."},
+{"q":"Đổi 144 km/h sang m/s, kết quả nào đúng?","a":["80 m/s","45 m/s","40 m/s","144 m/s"],"c":2,"e":"Đổi km/h sang m/s: 144/3,6 = 40 m/s."},
+{"q":"Đổi 162 km/h sang m/s, kết quả nào đúng?","a":["162 m/s","90 m/s","50 m/s","45 m/s"],"c":3,"e":"Đổi km/h sang m/s: 162/3,6 = 45 m/s."},
+{"q":"Đổi 180 km/h sang m/s, kết quả nào đúng?","a":["180 m/s","55 m/s","100 m/s","50 m/s"],"c":3,"e":"Đổi km/h sang m/s: 180/3,6 = 50 m/s."},
+{"q":"Đổi 2 m/s sang km/h, kết quả nào đúng?","a":["7,2 km/h","3,6 km/h","17,2 km/h","2 km/h"],"c":0,"e":"Đổi m/s sang km/h: 2 × 3,6 = 7,2 km/h."},
+{"q":"Đổi 3 m/s sang km/h, kết quả nào đúng?","a":["3 km/h","5,4 km/h","10,8 km/h","20,8 km/h"],"c":2,"e":"Đổi m/s sang km/h: 3 × 3,6 = 10,8 km/h."},
+{"q":"Đổi 4 m/s sang km/h, kết quả nào đúng?","a":["7,2 km/h","4 km/h","14,4 km/h","24,4 km/h"],"c":2,"e":"Đổi m/s sang km/h: 4 × 3,6 = 14,4 km/h."},
+{"q":"Đổi 5 m/s sang km/h, kết quả nào đúng?","a":["5 km/h","28 km/h","9 km/h","18 km/h"],"c":3,"e":"Đổi m/s sang km/h: 5 × 3,6 = 18 km/h."},
+{"q":"Đổi 6 m/s sang km/h, kết quả nào đúng?","a":["31,6 km/h","6 km/h","21,6 km/h","10,8 km/h"],"c":2,"e":"Đổi m/s sang km/h: 6 × 3,6 = 21,6 km/h."},
+{"q":"Đổi 7 m/s sang km/h, kết quả nào đúng?","a":["7 km/h","12,6 km/h","35,2 km/h","25,2 km/h"],"c":3,"e":"Đổi m/s sang km/h: 7 × 3,6 = 25,2 km/h."},
+{"q":"Đổi 8 m/s sang km/h, kết quả nào đúng?","a":["38,8 km/h","28,8 km/h","14,4 km/h","8 km/h"],"c":1,"e":"Đổi m/s sang km/h: 8 × 3,6 = 28,8 km/h."},
+{"q":"Đổi 9 m/s sang km/h, kết quả nào đúng?","a":["42,4 km/h","32,4 km/h","9 km/h","16,2 km/h"],"c":1,"e":"Đổi m/s sang km/h: 9 × 3,6 = 32,4 km/h."},
+{"q":"Đổi 10 m/s sang km/h, kết quả nào đúng?","a":["36 km/h","10 km/h","46 km/h","18 km/h"],"c":0,"e":"Đổi m/s sang km/h: 10 × 3,6 = 36 km/h."},
+{"q":"Đổi 15 m/s sang km/h, kết quả nào đúng?","a":["64 km/h","27 km/h","15 km/h","54 km/h"],"c":3,"e":"Đổi m/s sang km/h: 15 × 3,6 = 54 km/h."},
+{"q":"Xe A chạy 4 m/s, xe B chạy 20 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":1,"e":"Đổi tốc độ xe A: 4 × 3,6 = 14,4 km/h. So sánh với 20 km/h nên Xe B nhanh hơn."},
+{"q":"Xe A chạy 5 m/s, xe B chạy 13 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":0,"e":"Đổi tốc độ xe A: 5 × 3,6 = 18 km/h. So sánh với 13 km/h nên Xe A nhanh hơn."},
+{"q":"Xe A chạy 6 m/s, xe B chạy 27 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":1,"e":"Đổi tốc độ xe A: 6 × 3,6 = 21,6 km/h. So sánh với 27 km/h nên Xe B nhanh hơn."},
+{"q":"Xe A chạy 7 m/s, xe B chạy 20 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":0,"e":"Đổi tốc độ xe A: 7 × 3,6 = 25,2 km/h. So sánh với 20 km/h nên Xe A nhanh hơn."},
+{"q":"Xe A chạy 8 m/s, xe B chạy 34 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":1,"e":"Đổi tốc độ xe A: 8 × 3,6 = 28,8 km/h. So sánh với 34 km/h nên Xe B nhanh hơn."},
+{"q":"Xe A chạy 9 m/s, xe B chạy 27 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":0,"e":"Đổi tốc độ xe A: 9 × 3,6 = 32,4 km/h. So sánh với 27 km/h nên Xe A nhanh hơn."},
+{"q":"Xe A chạy 10 m/s, xe B chạy 42 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":1,"e":"Đổi tốc độ xe A: 10 × 3,6 = 36 km/h. So sánh với 42 km/h nên Xe B nhanh hơn."},
+{"q":"Xe A chạy 11 m/s, xe B chạy 34 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":0,"e":"Đổi tốc độ xe A: 11 × 3,6 = 39,6 km/h. So sánh với 34 km/h nên Xe A nhanh hơn."},
+{"q":"Xe A chạy 12 m/s, xe B chạy 49 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":1,"e":"Đổi tốc độ xe A: 12 × 3,6 = 43,2 km/h. So sánh với 49 km/h nên Xe B nhanh hơn."},
+{"q":"Xe A chạy 13 m/s, xe B chạy 41 km/h. Xe nào có tốc độ lớn hơn?","a":["Xe A","Xe B","Hai xe bằng nhau","Không thể so sánh do khác đơn vị"],"c":0,"e":"Đổi tốc độ xe A: 13 × 3,6 = 46,8 km/h. So sánh với 41 km/h nên Xe A nhanh hơn."},
+{"q":"Một người chạy 1200 m trong 4 phút. Tốc độ trung bình là bao nhiêu?","a":["7 m/s","300 m/s","10 m/s","5 m/s"],"c":3,"e":"4 phút = 240 s. v = 1200/240 = 5 m/s."},
+{"q":"Một người chạy 1500 m trong 5 phút. Tốc độ trung bình là bao nhiêu?","a":["7 m/s","5 m/s","10 m/s","300 m/s"],"c":1,"e":"5 phút = 300 s. v = 1500/300 = 5 m/s."},
+{"q":"Một người chạy 1800 m trong 6 phút. Tốc độ trung bình là bao nhiêu?","a":["5 m/s","300 m/s","10 m/s","7 m/s"],"c":0,"e":"6 phút = 360 s. v = 1800/360 = 5 m/s."},
+{"q":"Một người chạy 2400 m trong 8 phút. Tốc độ trung bình là bao nhiêu?","a":["5 m/s","300 m/s","7 m/s","10 m/s"],"c":0,"e":"8 phút = 480 s. v = 2400/480 = 5 m/s."},
+{"q":"Một người chạy 3000 m trong 10 phút. Tốc độ trung bình là bao nhiêu?","a":["10 m/s","5 m/s","7 m/s","300 m/s"],"c":1,"e":"10 phút = 600 s. v = 3000/600 = 5 m/s."},
+{"q":"Một người chạy 900 m trong 3 phút. Tốc độ trung bình là bao nhiêu?","a":["10 m/s","5 m/s","300 m/s","7 m/s"],"c":1,"e":"3 phút = 180 s. v = 900/180 = 5 m/s."},
+{"q":"Một người chạy 3600 m trong 12 phút. Tốc độ trung bình là bao nhiêu?","a":["7 m/s","300 m/s","10 m/s","5 m/s"],"c":3,"e":"12 phút = 720 s. v = 3600/720 = 5 m/s."},
+{"q":"Một người chạy 4200 m trong 14 phút. Tốc độ trung bình là bao nhiêu?","a":["5 m/s","300 m/s","10 m/s","7 m/s"],"c":0,"e":"14 phút = 840 s. v = 4200/840 = 5 m/s."}
+];
+const $=id=>document.getElementById(id);
+const randInt=n=>{if(window.crypto?.getRandomValues){const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n}return Math.floor(Math.random()*n)};
+const shuffle=xs=>{const a=[...xs];for(let i=a.length-1;i>0;i--){const j=randInt(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const RECENT_QUESTION_KEY='ai-ve-dich-truoc-recent-questions-v2';
+let recentQuestionsInMemory=[];
+const makeQuestions=()=>{
+ let previous=recentQuestionsInMemory;
+ if(previous.length===0){try{const parsed=JSON.parse(localStorage.getItem(RECENT_QUESTION_KEY)||'[]');if(Array.isArray(parsed))previous=parsed;}catch(e){}}
+ // Tránh lặp bộ câu hỏi ở lượt ngay trước trên cùng thiết bị (máy chủ chọn cho phòng trực tuyến).
+ const fresh=shuffle(bank.filter(q=>!previous.includes(q.q)));
+ const selection=fresh.slice(0,10);
+ if(selection.length<10)selection.push(...shuffle(bank.filter(q=>!selection.includes(q))).slice(0,10-selection.length));
+ recentQuestionsInMemory=selection.map(q=>q.q);
+ try{localStorage.setItem(RECENT_QUESTION_KEY,JSON.stringify(recentQuestionsInMemory))}catch(e){}
+ return selection.map((q,i)=>{const opts=shuffle(q.a.map((label,n)=>({label,isCorrect:n===q.c})));return {id:i,q:q.q,opts:opts.map(x=>x.label),right:opts.findIndex(x=>x.isCorrect),explanation:q.e}});
+};
+const clean=(s,max=24)=>String(s||'').trim().replace(/[<>]/g,'').slice(0,max);
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtTime=ms=>{const seconds=Math.max(0,Math.floor(ms/1000));return String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0')};
+const emojis=['🏎️','🚙','🚕','🚗','🚓','🚖','🚘','🚐'];
+let view='home', mode=null, role=null, isHost=false, sound=true, peer=null, hostConn=null, guestConns=new Map();
+let room='', myId='', teams=[], race=null, pendingAnswer=false, waitingNext=false, timer=null, onlinePhase='idle';
+let raceEpoch=0, connectionEpoch=0, roomRetries=0, joinTimeout=null;
+const show=id=>{['home','setup','lobby','play'].forEach(k=>$(k).classList.toggle('hidden',k!==id));view=id;};
+function setStatus(msg,error=false){$('netStatus').textContent=msg;$('netStatus').classList.toggle('error',error)}
+function tone(ok){if(!sound)return;try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.frequency.value=ok?850:260;g.gain.setValueAtTime(.06,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.12);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.12);o.onended=()=>c.close()}catch(e){}}
+function clearTimer(){if(timer!==null){clearInterval(timer);timer=null}}
+function drawClock(){if(!race)return;const elapsed=race.phase==='ended'?race.endedAt-race.startedAt:Date.now()-race.startedAt;$('clock').textContent=fmtTime(elapsed)}
+function startTimer(){clearTimer();drawClock();timer=setInterval(drawClock,400)}
+function rankRacers(xs){return [...xs].sort((a,b)=>b.score-a.score || (a.elapsedMs??Number.POSITIVE_INFINITY)-(b.elapsedMs??Number.POSITIVE_INFINITY) || a.name.localeCompare(b.name,'vi'))}
+function showScoreboard(){if(!race)return;const sorted=rankRacers(race.racers);$('scoreboard').innerHTML=sorted.map((t,i)=>`<div class="scoreline ${t.id===myId?'me':''}"><span>${i+1}.</span><span class="name">${escapeHtml(t.name)}${t.online===false?' (mất kết nối)':''}</span><span class="points">${t.score}đ · ${t.answered}/10</span></div>`).join('');
+ const me=race.racers.find(x=>x.id===myId);$('myScore').textContent=isHost? (sorted[0]?.score||0) : (me?.score||0);
+ $('questionCount').textContent=isHost?race.racers.filter(t=>t.answered===10).length+'/'+race.racers.length: (me?.answered||0)+'/10';
+ drawTrack();}
+function drawTrack(){if(!race)return;const elem=$('track');const players=race.racers;
+ const lanes=[...elem.querySelectorAll('.lane')];const needsRebuild=lanes.length!==players.length||lanes.some((el,i)=>el.dataset.id!==players[i].id);
+ if(needsRebuild){const oldTop=elem.scrollTop;elem.innerHTML='';players.forEach((t,i)=>{const lane=document.createElement('div');lane.className='lane';lane.dataset.id=t.id;const name=document.createElement('span');name.className='lane-name';const car=document.createElement('span');car.className='car';car.textContent=emojis[i%emojis.length];lane.append(name,car);elem.append(lane)});elem.scrollTop=oldTop;}
+ [...elem.querySelectorAll('.lane')].forEach((el,i)=>{const t=players[i];el.classList.toggle('my-lane',t.id===myId);el.classList.toggle('offline',t.online===false);el.querySelector('.lane-name').textContent=t.name+' · '+t.score+'đ';const max=Math.max(0,el.clientWidth-80);const left=(Math.min(100,t.progress)/100)*max+'px';const car=el.querySelector('.car');if(needsRebuild)requestAnimationFrame(()=>{if(car.isConnected)car.style.left=left});else car.style.left=left});
+}
+function beginRaceUi(){show('play');$('raceResult').classList.add('hidden');$('quiz').classList.toggle('hidden',isHost);$('teacherTools').classList.toggle('hidden',!isHost||mode!=='online');$('playTitle').textContent=mode==='solo'?'Đua cá nhân':'Phòng đua '+room+' · Trực tuyến';$('raceHint').textContent='Ai trả lời đúng trước, xe tiến trước.';$('nextQuestion').classList.add('hidden');$('feedback').classList.add('hidden');$('gameStatus').textContent='';pendingAnswer=false;waitingNext=false;startTimer();showScoreboard();}
+function renderQuestion(q,index){if(!race||race.phase!=='racing')return;
+ $('quiz').classList.remove('hidden');$('quizTag').textContent='🏁 CÂU '+(index+1)+'/10';$('question').textContent=q.q;$('choices').innerHTML='';$('choices').classList.remove('hidden');
+ q.opts.forEach((label,i)=>{const btn=document.createElement('button');btn.type='button';btn.className='choice';const span=document.createElement('span');span.className='letter';span.textContent='ABCD'[i];btn.append(span,document.createTextNode(label));btn.addEventListener('click',()=>onAnswer(i));$('choices').append(btn)});
+ $('feedback').classList.add('hidden');$('nextQuestion').classList.add('hidden');$('gameStatus').textContent='';pendingAnswer=false;waitingNext=false;race.currentIndex=index;}
+function showFeedback(selected,right,explanation,correct){$('feedback').textContent='';const b=document.createElement('strong');b.textContent=correct?'✓ Chính xác!':'✕ Chưa chính xác.';const info=document.createElement('div');info.textContent=explanation;$('feedback').append(b,info);$('feedback').classList.remove('hidden');
+ [...$('choices').children].forEach((btn,i)=>{btn.disabled=true;if(i===right)btn.classList.add('good');else if(i===selected)btn.classList.add('bad')});tone(correct);}
+function updatePlayerStatsFromServer(players){if(!race)return;race.racers=players.map(p=>({...p}));showScoreboard();}
+function concludeRace(){if(!race)return;race.phase='ended';race.endedAt=race.endedAt||Date.now();clearTimer();drawClock();$('quiz').classList.add('hidden');$('teacherTools').classList.add('hidden');$('raceResult').classList.remove('hidden');
+ const top=rankRacers(race.racers);$('leaderboard').innerHTML=top.map((r,i)=>`<div class="leader"><span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':'🏁'} <b>${escapeHtml(r.name)}</b> · ${r.correct}/10 đúng</span><b>${r.score}đ · ${r.elapsedMs==null?'—':fmtTime(r.elapsedMs)}</b></div>`).join('');
+ $('resultText').textContent=(mode==='solo'?'Hoàn thành 10 câu. ':'')+'Xếp theo điểm cao nhất, bằng điểm ưu tiên thời gian hoàn thành ngắn hơn.';
+ $('playAgain').classList.toggle('hidden',mode==='online'&&!isHost);$('exportResult').classList.toggle('hidden',!isHost&&mode==='online');
+ if(mode==='solo')saveBestSolo();}
+function bestKey(){return 'ai-ve-dich-truoc-best-'+(clean($('soloId').value,16)||clean($('soloName').value)||'anonymous').toLowerCase()}
+function refreshBestSolo(){try{const prev=JSON.parse(localStorage.getItem(bestKey())||'null');$('bestSolo').textContent=prev?`Kỷ lục trên thiết bị này: ${prev.score} điểm · ${fmtTime(prev.elapsedMs)}`:'Chưa có thành tích được lưu trên thiết bị này.'}catch(e){$('bestSolo').textContent='Trình duyệt không cho lưu kỷ lục.'}}
+function saveBestSolo(){const t=race?.racers.find(x=>x.id==='solo');if(!t)return;try{const k=bestKey();const old=JSON.parse(localStorage.getItem(k)||'null');if(!old||t.score>old.score||(t.score===old.score&&t.elapsedMs<old.elapsedMs))localStorage.setItem(k,JSON.stringify({name:t.name,score:t.score,correct:t.correct,elapsedMs:t.elapsedMs,at:new Date().toISOString()}));refreshBestSolo()}catch(e){}}
+function setupSolo(){disconnect();role='solo';mode='solo';isHost=false;myId='solo';const name=clean($('soloName').value)||'TAY ĐUA';const botNames=['TÊN LỬA','CHỚP XANH','SAO BĂNG'];
+ race={phase:'racing',id:'solo-'+Date.now(),startedAt:Date.now(),endedAt:null,questions:makeQuestions(),currentIndex:0,racers:[{id:'solo',name,correct:0,score:0,progress:0,answered:0,elapsedMs:null,online:true},...botNames.map((n,i)=>({id:'bot'+i,name:n,correct:0,score:0,progress:0,answered:0,elapsedMs:null,online:true}))]};beginRaceUi();const q=race.questions[0];renderQuestion({q:q.q,opts:q.opts},0);}
+function answerSolo(choice){if(pendingAnswer||race.phase!=='racing')return;const player=race.racers[0],q=race.questions[race.currentIndex];if(!q||choice<0||choice>3)return;pendingAnswer=true;const correct=choice===q.right;
+ player.answered++;if(correct){player.correct++;player.score+=100;player.progress=player.correct*10}player.elapsedMs=Date.now()-race.startedAt;
+ for(const b of race.racers.slice(1)){b.answered++;if(randInt(100)<68){b.correct++;b.score+=100;b.progress=b.correct*10}b.elapsedMs=Date.now()-race.startedAt+randInt(2500)}
+ showFeedback(choice,q.right,q.explanation,correct);showScoreboard();if(player.answered===10){$('nextQuestion').textContent='🏆 Xem kết quả';}else $('nextQuestion').textContent='CÂU TIẾP THEO ➜';$('nextQuestion').classList.remove('hidden');$('gameStatus').textContent='Câu trả lời đã được chấm. Xe đã cập nhật!';}
+function onAnswer(i){if(mode==='solo')answerSolo(i);else answerGuest(i)}
+function nextSolo(){if(!race||race.phase!=='racing')return;const player=race.racers[0];if(!pendingAnswer)return;if(player.answered>=10){concludeRace();return;}const idx=player.answered;const q=race.questions[idx];renderQuestion({q:q.q,opts:q.opts},idx)}
+function chooseMode(which){disconnect();race=null;mode=which;role=null;show('setup');$('soloSetup').classList.toggle('hidden',which!=='solo');$('onlineSetup').classList.toggle('hidden',which!=='online');$('setupTitle').textContent=which==='solo'?'🏎️ Chế độ cá nhân':'🌐 Chế độ phòng đua trực tuyến';setStatus('');$('hostSetup').classList.add('hidden');$('joinSetup').classList.add('hidden');if(which==='solo')refreshBestSolo();else {const p=new URLSearchParams(location.search).get('room');if(/^\d{4}$/.test(p||'')){$('pinInput').value=p;pickRole('join')}}}
+function pickRole(which){role=which;$('hostSetup').classList.toggle('hidden',which!=='host');$('joinSetup').classList.toggle('hidden',which!=='join');setStatus('');}
+function safeSend(c,msg){try{if(c?.open){c.send(msg);return true}}catch(e){}return false}
+function disconnect(){connectionEpoch++;clearTimeout(joinTimeout);joinTimeout=null;clearTimer();
+ if(isHost){for(const c of guestConns.values())safeSend(c,{type:'closed',reason:'Giáo viên đã đóng phòng.'});}
+ try{hostConn?.close()}catch(e){}hostConn=null;
+ for(const c of guestConns.values())try{c.close()}catch(e){}guestConns.clear();
+ try{peer?.destroy()}catch(e){}peer=null;room='';isHost=false;onlinePhase='idle';teams=[];}
+function goHome(){disconnect();race=null;role=null;mode=null;myId='';try{if(location.protocol==='http:'||location.protocol==='https:')history.replaceState(null,'',location.pathname)}catch(e){}show('home')}
+function makeCode(){return String(randInt(10000)).padStart(4,'0')}
+function requirePeer(){if(typeof Peer==='undefined'){setStatus('Không tải được thư viện PeerJS. Hãy kiểm tra Internet và tải lại trang.',true);return false}return true}
+function newPeer(id){return id?new Peer(id,{debug:0}):new Peer({debug:0})}
+function createRoom(){if(!requirePeer())return;disconnect();mode='online';role='host';isHost=true;onlinePhase='creating';roomRetries=0;tryRoom()}
+function tryRoom(){if(roomRetries++>30){setStatus('Chưa thể tạo phòng. Vui lòng thử lại sau.',true);disconnect();return}const gen=++connectionEpoch;room=makeCode();setStatus('Đang tạo mã phòng '+room+'...');peer=newPeer('ai-ve-dich-truoc-room-'+room);
+ peer.on('open',()=>{if(gen!==connectionEpoch)return;onlinePhase='lobby';myId='host';teams=[];showLobby();});
+ peer.on('connection',conn=>{if(gen!==connectionEpoch){conn.close();return}attachHostConnection(conn,gen)});
+ peer.on('error',e=>{if(gen!==connectionEpoch)return;if(e.type==='unavailable-id'){try{peer?.destroy()}catch(x){}peer=null;tryRoom();return}setStatus('Không tạo được phòng ('+e.type+'). Hãy thử lại.',true);disconnect();show('setup')});
+ peer.on('disconnected',()=>{if(gen!==connectionEpoch)return;$('lobbyStatus').textContent='Máy chủ ghép nối mất kết nối; hãy kiểm tra Internet.'});
+}
+function showLobby(){show('lobby');$('roomCode').textContent=room;$('startOnline').classList.toggle('hidden',!isHost);drawLobby();}
+function drawLobby(){const list=$('lobbyList');list.innerHTML=teams.length?teams.map((t,i)=>`<div class="scoreline"><span>${i+1}.</span><span class="name">${escapeHtml(t.name)}</span><span class="points">✓ Đã vào</span></div>`).join(''):'<div class="note">Chưa có tay đua nào vào phòng.</div>';
+ $('lobbyStatus').textContent=isHost?`Đã kết nối ${teams.length} tay đua. Không giới hạn bằng mã trò chơi; chọn “Xuất phát” khi sẵn sàng.`:'Đã tham gia phòng. Đang chờ giáo viên cho xuất phát…';$('startOnline').disabled=teams.length===0;}
+function toPublic(p){return {id:p.id,name:p.name,studentId:p.studentId||'',score:p.score||0,correct:p.correct||0,answered:p.answered||0,progress:p.progress||0,elapsedMs:p.elapsedMs??null,online:p.online!==false};}
+function attachHostConnection(conn,gen){conn.on('data',msg=>{if(gen!==connectionEpoch)return;hostMessage(conn,msg)});conn.on('close',()=>{if(gen===connectionEpoch)hostDisconnect(conn)});conn.on('error',()=>{if(gen===connectionEpoch)hostDisconnect(conn)})}
+function hostMessage(conn,msg){if(!msg||typeof msg!=='object')return;const id=conn.peer;
+ if(msg.type==='join'){
+  if(onlinePhase!=='lobby'){safeSend(conn,{type:'reject',reason:'Cuộc đua đã xuất phát. Hãy đợi lượt đua sau.'});return}
+  if(teams.find(t=>t.id===id)){safeSend(conn,{type:'reject',reason:'Thiết bị đã có trong phòng.'});return}
+  const t={id,name:clean(msg.name)||'TAY ĐUA',studentId:clean(msg.studentId,16),score:0,correct:0,answered:0,progress:0,elapsedMs:null,online:true};
+  teams.push(t);guestConns.set(id,conn);safeSend(conn,{type:'welcome',room,teams:teams.map(toPublic)});broadcast({type:'lobby',teams:teams.map(toPublic)});drawLobby();return;
+ }
+ if(!race||onlinePhase!=='racing'||race.phase!=='racing'||msg.raceId!==race.id)return;
+ const racer=race.racers.find(t=>t.id===id);if(!racer||racer.online===false)return;
+ if(msg.type==='next'){
+  if(Number(msg.index)===racer.answered && racer.answered<10)sendQuestion(id);
+  return;
+ }
+ if(msg.type!=='answer')return;
+ const index=Number(msg.index),choice=Number(msg.choice);
+ if(!Number.isInteger(index)||index!==racer.answered||index<0||index>=10||!Number.isInteger(choice)||choice<0||choice>3)return;
+ const q=race.questions[index],correct=choice===q.right;
+ racer.answered++;if(correct){racer.correct++;racer.score+=100;racer.progress=racer.correct*10}
+ racer.elapsedMs=Date.now()-race.startedAt;
+ safeSend(conn,{type:'feedback',raceId:race.id,index,choice,right:q.right,correct,explanation:q.explanation,answered:racer.answered});
+ broadcast({type:'state',raceId:race.id,racers:race.racers.map(toPublic)});showScoreboard();
+}
+function hostDisconnect(conn){const id=conn.peer,remember=guestConns.get(id);if(remember!==conn)return;guestConns.delete(id);
+ if(onlinePhase==='lobby'){teams=teams.filter(t=>t.id!==id);broadcast({type:'lobby',teams:teams.map(toPublic)});drawLobby()}
+ if(onlinePhase==='racing'){const t=race?.racers.find(t=>t.id===id);if(t){t.online=false;broadcast({type:'state',raceId:race.id,racers:race.racers.map(toPublic)});showScoreboard()}}
+}
+function broadcast(msg){for(const c of guestConns.values())safeSend(c,msg)}
+function sendQuestion(id){if(!race||race.phase!=='racing')return;const t=race.racers.find(x=>x.id===id),conn=guestConns.get(id);if(!t||!conn||t.answered>=10)return;const q=race.questions[t.answered];safeSend(conn,{type:'question',raceId:race.id,index:t.answered,q:q.q,opts:q.opts});}
+function startOnline(){if(!isHost||onlinePhase!=='lobby'||!teams.length)return;
+ race={id:'room-'+Date.now()+'-'+randInt(1000000),phase:'racing',startedAt:Date.now(),endedAt:null,questions:makeQuestions(),racers:teams.filter(t=>guestConns.has(t.id)).map(t=>({...t,score:0,progress:0,correct:0,answered:0,elapsedMs:null,online:true}))};
+ onlinePhase='racing';beginRaceUi();broadcast({type:'start',raceId:race.id,startedAt:race.startedAt,racers:race.racers.map(toPublic)});for(const t of race.racers)sendQuestion(t.id)}
+function joinRoom(){if(!requirePeer())return;const code=$('pinInput').value.replace(/\D/g,'').slice(0,4);const name=clean($('joinName').value);if(!/^\d{4}$/.test(code)||!name){setStatus('Hãy nhập đúng 4 chữ số và tên tay đua.',true);return}
+ disconnect();mode='online';role='join';isHost=false;room=code;setStatus('Đang kết nối phòng '+code+'…');const gen=++connectionEpoch;peer=newPeer();
+ peer.on('open',()=>{if(gen!==connectionEpoch)return;myId=peer.id;hostConn=peer.connect('ai-ve-dich-truoc-room-'+code,{reliable:true});
+ hostConn.on('open',()=>{if(gen!==connectionEpoch)return;safeSend(hostConn,{type:'join',name,studentId:clean($('joinId').value,16)});setStatus('Đã liên lạc với máy giáo viên, đang vào phòng…')});
+ hostConn.on('data',msg=>{if(gen===connectionEpoch)guestMessage(msg)});
+ hostConn.on('close',()=>{if(gen!==connectionEpoch)return;connectionLost('Kết nối với máy giáo viên đã ngắt. Vui lòng vào phòng lại.')});
+ hostConn.on('error',()=>{if(gen!==connectionEpoch)return;connectionLost('Không kết nối được. Hãy kiểm tra mã phòng và mạng.')});
+ joinTimeout=setTimeout(()=>{if(gen===connectionEpoch&&view==='setup')connectionLost('Không nhận được phản hồi. Hãy kiểm tra mã 4 số và máy giáo viên.')},11000);
+ });
+ peer.on('error',e=>{if(gen!==connectionEpoch)return;connectionLost('Lỗi mạng ('+e.type+'). Kiểm tra kết nối hoặc thử vào phòng lại.')});
+}
+function connectionLost(msg){if(mode!=='online')return;const formerRole=role;disconnect();race=null;show('setup');$('onlineSetup').classList.remove('hidden');$('soloSetup').classList.add('hidden');role=formerRole;if(formerRole==='join'){$('joinSetup').classList.remove('hidden');$('hostSetup').classList.add('hidden')}setStatus(msg,true)}
+function guestMessage(msg){if(!msg||typeof msg!=='object')return;
+ switch(msg.type){
+ case 'welcome':clearTimeout(joinTimeout);teams=msg.teams||[];showLobby();break;
+ case 'lobby':teams=msg.teams||[];if(view==='lobby')drawLobby();break;
+ case 'reject':{const reason=msg.reason||'Không thể vào phòng.';connectionLost(reason);break}
+ case 'closed':connectionLost(msg.reason||'Giáo viên đã đóng phòng.');break;
+ case 'start':{
+   race={id:msg.raceId,phase:'racing',startedAt:msg.startedAt,endedAt:null,racers:msg.racers||[],currentIndex:0};beginRaceUi();$('gameStatus').textContent='Sắp nhận câu hỏi đầu tiên…';break;
+ }
+ case 'question':{
+   if(!race||race.id!==msg.raceId||race.phase!=='racing')return;
+   if(msg.index!==race.racers.find(t=>t.id===myId)?.answered)return;
+   renderQuestion({q:msg.q,opts:msg.opts},msg.index);break;
+ }
+ case 'feedback':{
+   if(!race||race.id!==msg.raceId||!pendingAnswer||msg.index!==race.currentIndex)return;
+   pendingAnswer=false;waitingNext=true;showFeedback(msg.choice,msg.right,msg.explanation,msg.correct);
+   $('nextQuestion').textContent=msg.answered===10?'🏁 Hoàn tất lượt đua':'CÂU TIẾP THEO ➜';$('nextQuestion').classList.remove('hidden');$('gameStatus').textContent='Đã chấm và cập nhật xe. Em có thể sang câu tiếp theo ngay.';break;
+ }
+ case 'state':if(race&&race.id===msg.raceId&&race.phase==='racing')updatePlayerStatsFromServer(msg.racers);break;
+ case 'end':if(race&&race.id===msg.raceId){updatePlayerStatsFromServer(msg.racers);race.endedAt=msg.endedAt;concludeRace()}break;
+ }
+}
+function answerGuest(i){if(!race||race.phase!=='racing'||isHost||pendingAnswer||waitingNext||!hostConn?.open)return;
+ const me=race.racers.find(t=>t.id===myId);if(!me||me.answered!==race.currentIndex)return;
+ pendingAnswer=true;[...$('choices').children].forEach((b,k)=>{b.disabled=true;if(k===i)b.style.borderColor='#ffe27d'});
+ if(!safeSend(hostConn,{type:'answer',raceId:race.id,index:race.currentIndex,choice:i})){pendingAnswer=false;$('gameStatus').textContent='Gửi đáp án thất bại. Kiểm tra kết nối.';return}
+ $('gameStatus').textContent='Đang chấm đáp án…';}
+function nextGuest(){if(!race||race.phase!=='racing'||!waitingNext)return;const me=race.racers.find(t=>t.id===myId);if(!me)return;
+ if(me.answered>=10){$('nextQuestion').classList.add('hidden');$('choices').classList.add('hidden');$('question').textContent='🏁 Em đã hoàn thành lượt đua!';$('gameStatus').textContent='Đã trả lời đủ 10 câu. Chờ giáo viên công bố kết quả.';return;}
+ waitingNext=false;$('nextQuestion').classList.add('hidden');$('gameStatus').textContent='Đang tải câu tiếp theo…';safeSend(hostConn,{type:'next',raceId:race.id,index:me.answered});}
+function endOnline(){if(!isHost||mode!=='online'||!race||race.phase!=='racing')return;race.endedAt=Date.now();onlinePhase='ended';race.phase='ended';broadcast({type:'end',raceId:race.id,racers:race.racers.map(toPublic),endedAt:race.endedAt});concludeRace()}
+function exportCsv(){if(!race)return;const data=rankRacers(race.racers);const rows=[['Hạng','Mã học sinh','Tên tay đua','Chế độ','Số câu đúng','Số câu đã trả lời','Điểm','Thời gian (giây)','Trạng thái','Ngày giờ'],...data.map((p,i)=>[i+1,p.studentId||'',p.name,mode==='online'?'Phòng trực tuyến':'Cá nhân',p.correct,p.answered,p.score,p.elapsedMs==null?'':(p.elapsedMs/1000).toFixed(1),p.online===false?'Ngắt kết nối':p.answered===10?'Hoàn thành':'Chưa xong',new Date().toLocaleString('vi-VN')])];
+ const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');const a=document.createElement('a'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.href=url;a.download='AI_VE_DICH_TRUOC_ket_qua_'+(room||'ca_nhan')+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function copyText(text){if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(()=>{$('lobbyStatus').textContent='Đã sao chép!'}).catch(()=>window.prompt('Sao chép:',text))}else window.prompt('Sao chép:',text)}
+$('soloMode').onclick=()=>chooseMode('solo');$('onlineMode').onclick=()=>chooseMode('online');$('backHome').onclick=goHome;
+$('hostBtn').onclick=()=>pickRole('host');$('joinBtn').onclick=()=>pickRole('join');$('createRoom').onclick=createRoom;$('connectRoom').onclick=joinRoom;$('startSolo').onclick=setupSolo;
+$('pinInput').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,4)});
+$('pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')joinRoom()});
+$('leaveLobby').onclick=goHome;$('startOnline').onclick=startOnline;$('copyCode').onclick=()=>copyText(room);
+$('copyLink').onclick=()=>copyText(location.href.split('?')[0]+'?room='+room);
+$('exitGame').onclick=()=>{if(confirm('Thoát cuộc đua hiện tại?'))goHome()};
+$('nextQuestion').onclick=()=>{if(mode==='solo')nextSolo();else nextGuest()};
+$('endOnline').onclick=()=>{if(confirm('Kết thúc cuộc đua cho tất cả tay đua và công bố kết quả?'))endOnline()};
+$('backResults').onclick=goHome;$('exportCsv').onclick=exportCsv;$('exportResult').onclick=exportCsv;
+$('soundBtn').onclick=()=>{sound=!sound;$('soundBtn').textContent=sound?'🔊 Âm thanh: Bật':'🔇 Âm thanh: Tắt'};
+$('playAgain').onclick=()=>{if(mode==='solo')setupSolo();else if(isHost&&onlinePhase==='ended'){teams=teams.filter(t=>guestConns.has(t.id));if(teams.length){onlinePhase='lobby';showLobby();}else goHome()}};
+$('soloName').addEventListener('change',refreshBestSolo);$('soloId').addEventListener('change',refreshBestSolo);
+window.addEventListener('resize',()=>{if(race&&view==='play')drawTrack()});
+window.addEventListener('beforeunload',()=>{try{peer?.destroy()}catch(e){}});
+const p=new URLSearchParams(location.search).get('room');if(/^\d{4}$/.test(p||'')){chooseMode('online');$('pinInput').value=p;pickRole('join')}
+</script>
+</body></html>
